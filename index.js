@@ -1,11 +1,12 @@
 let plugins;
+const fs = require("fs");
 
 /**
  * @param {import('eris')} Eris
  * @param {Object.<string, Boolean>} options
  */
 module.exports = (Eris, options = {}) => {
-  plugins = Object.fromEntries((readdirSync(`${__dirname}/src`)).map((p) => [p, true]));
+  plugins = Object.fromEntries((fs.readdirSync(`${__dirname}/src`)).map((p) => [p, true]));
   const selectedPlugins = Object.keys(options);
   selectedPlugins.forEach((k) => {
     if (typeof plugins[k] === 'undefined') return console.error(`Unknown option: ${k}`);
