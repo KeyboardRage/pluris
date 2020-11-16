@@ -1,13 +1,11 @@
-const readdir = require('util').promisify(require('fs').readdir);
-
 let plugins;
 
 /**
  * @param {import('eris')} Eris
  * @param {Object.<string, Boolean>} options
  */
-module.exports = async (Eris, options = {}) => {
-  plugins = Object.fromEntries((await readdir(`${__dirname}/src`)).map((p) => [p, true]));
+module.exports = (Eris, options = {}) => {
+  plugins = Object.fromEntries((readdirSync(`${__dirname}/src`)).map((p) => [p, true]));
   const selectedPlugins = Object.keys(options);
   selectedPlugins.forEach((k) => {
     if (typeof plugins[k] === 'undefined') return console.error(`Unknown option: ${k}`);
@@ -22,7 +20,6 @@ module.exports = async (Eris, options = {}) => {
 
     plugin.init(Eris, plugins);
     delete plugin.init;
-    console.log(`Loaded plugin: ${k}`);
     count += 1;
   });
 
